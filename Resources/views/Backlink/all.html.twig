@@ -1,0 +1,10 @@
+<table>
+
+	{% for backlinkProfile in backlinks %}
+	<tr>
+		{% for key,profileAttribute in backlinkProfile %}
+			<td>{{ profileAttribute }}</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>

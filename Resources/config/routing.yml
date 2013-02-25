@@ -1,0 +1,63 @@
+shaythamc_link_management_homepage:
+    pattern:  /
+    defaults: { _controller: ShaythamcLinkManagementBundle:Default:index }
+
+shaythamc_link_management_add_webmaster:
+    pattern:  /webmasters/add/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Webmaster:addWebmaster }
+
+shaythamc_link_management_edit_webmaster:
+    pattern:  /webmasters/edit/{webmasterId}/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Webmaster:editWebmaster }
+
+shaythamc_link_management_view_all_webmaster:
+    pattern:  /webmasters/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Webmaster:viewAllWebmasters }
+    
+shaythamc_link_management_view_links_by_webmaster:
+    pattern:  /webmasters/{webmasterId}/links/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Webmaster:viewLinksByWebmaster }
+
+shaythamc_link_management_add_link:
+    pattern:  /links/add/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Link:addLink }
+
+shaythamc_link_management_edit_link:
+    pattern:  /links/edit/{linkId}/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Link:editLink }
+
+shaythamc_link_management_view_all_links:
+    pattern:  /links/
+    defaults: { _controller: ShaythsamcLinkManagementBundle:Link:viewAllLinks }
+    
+shaythamc_link_management_link_stats:
+    pattern:  /links/stats/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Link:viewStats }
+
+shaythamc_link_management_add_site:
+    pattern:  /sites/add/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Site:addSite }
+
+shaythamc_link_management_edit_site:
+    pattern:  /sites/edit/{siteId}/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Site:editSite }
+
+shaythamc_link_management_view_all_sites:
+    pattern:  /sites/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Site:viewAllSites }
+    
+shaythamc_link_management_site_stats:
+    pattern:  /sites/stats/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Site:viewStats }
+    
+shaythamc_link_management_add_backlink:
+    pattern:  /backlinks/add/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Backlink:addBacklink }
+    
+shaythamc_link_management_view_all_backlinks:
+    pattern:  /backlinks/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Backlink:viewAllBacklinks }
+
+shaythamc_link_management_add_budget:
+    pattern:  /budgets/
+    defaults: { _controller: ShaythamcLinkManagementBundle:Budget:addBudget }

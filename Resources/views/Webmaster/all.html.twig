@@ -1,0 +1,13 @@
+
+{% for webmasterProfile in webmasters %}
+	<ul>
+	{% for key,profileAttribute in webmasterProfile %}
+		
+			<li>{{ key }} - {{ profileAttribute }}</li>
+		
+	{% endfor %}
+	</ul>
+	<hr>
+{% endfor %}
+
+

@@ -1,0 +1,38 @@
+parameters:
+    shaythamc_link_management_database.class: Shaythamc\LinkManagementBundle\Service\Database
+    shaythamc_link_management_stats.class: Shaythamc\LinkManagementBundle\Service\Stats
+    shaythamc_link_management_link_manager.class: Shaythamc\LinkManagementBundle\Service\LinkManager
+    shaythamc_link_management_webmaster_manager.class: Shaythamc\LinkManagementBundle\Service\WebmasterManager
+    shaythamc_link_management_budget_manager.class: Shaythamc\LinkManagementBundle\Service\BudgetManager
+    shaythamc_link_management_site_manager.class: Shaythamc\LinkManagementBundle\Service\SiteManager
+    shaythamc_link_management_backlink_manager.class: Shaythamc\LinkManagementBundle\Service\BacklinkManager
+    shaythamc_link_management_budget_manager.class: Shaythamc\LinkManagementBundle\Service\BudgetManager
+    shaythamc_link_management_backlink_checker.class: Shaythamc\LinkManagementBundle\Service\BacklinkChecker
+    
+services:
+    lmt_database:
+        class: %shaythamc_link_management_database.class%
+    seostats:
+        class: %shaythamc_link_management_stats.class%
+        file: "%kernel.root_dir%/../vendor/seostats/seostats/src/seostats.php"
+    lmt_link_manager:
+        class: %shaythamc_link_management_link_manager.class%
+        arguments: [@lmt_database]    
+    lmt_webmaster_manager:
+        class: %shaythamc_link_management_webmaster_manager.class%
+        arguments: [@lmt_database]
+    lmt_budget_manager:
+        class: %shaythamc_link_management_budget_manager.class%
+        arguments: [@lmt_database]
+    lmt_site_manager:
+        class: %shaythamc_link_management_site_manager.class%
+        arguments: [@lmt_database] 
+    lmt_backlink_manager:
+        class: %shaythamc_link_management_backlink_manager.class%
+        arguments: [@lmt_database] 
+    lmt_budget_manager:
+        class: %shaythamc_link_management_budget_manager.class%
+        arguments: [@lmt_database] 
+    lmt_backlink_checker:
+        class: %shaythamc_link_management_backlink_checker.class%
+        arguments: [@lmt_backlink_manager, @lmt_site_manager]

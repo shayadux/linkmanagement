@@ -1,0 +1,9 @@
+{% javascripts %}
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+{% endjavascripts %}
+
+<form action="{{ path('shaythamc_link_management_add_link') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+	   
+    <input type="submit" />
+</form>
