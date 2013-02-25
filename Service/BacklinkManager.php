@@ -52,14 +52,6 @@ class BacklinkManager{
 		$query = 'SELECT * FROM Backlinks';
 		return $this->database->retrieve($query);
 	}
-	
-	public function updateBacklink(Request $request, $backlinkId){
-		
-	}
-    
-    public function updateAnchortext(){
-        
-    }
     
     public function updateAnchorStatus($backlinkId, $anchorStatus){
         
@@ -71,6 +63,15 @@ class BacklinkManager{
         
         $this->database->update($query, $data);
         
+    }
+    
+    public function updateUrlStatus($backlinkId, $urlStatus){
+        $query = 'UPDATE Backlinks SET url_status = :urlStatus WHERE backlinkId = :backlinkId';
+        $data = array(
+                ':urlStatus' => $urlStatus,
+                ':backlinkId' => $backlinkId
+            );
+        $this->database->update($query, $data);
     }
     
     public function updateNofollowStatus($backlinkId, $nofollowStatus){
@@ -91,7 +92,15 @@ class BacklinkManager{
     public function getBacklinkDisplayText($backlinkId){
         $query = 'SELECT display_text FROM Backlinks WHERE backlinkId = :backlinkId';
         $data = array(':backlinkId' => $backlinkId);
-        return $this->database->retrieve($query, $data);
+        $result = $this->database->retrieve($query, $data);
+        return $result[0]['display_text'];
+    }
+    
+    public function getBacklinkUrl($backlinkId){
+        $query = 'SELECT url FROM Backlinks WHERE backlinkId = :backlinkId';
+        $data = array(':backlinkId' => $backlinkId);
+        $result = $this->database->retrieve($query, $data);
+        return $result[0]['url'];
     }
 	
 }
