@@ -14,7 +14,7 @@ class DefaultController extends Controller
         
     
         $backlinkChecker = $this->get('lmt_backlink_checker');
-        echo $backlinkChecker->isUrl('asdf');
+        echo $backlinkChecker->checkDisplayText(5);
         $areAlive = $backlinkChecker->areAlive();
         //return new Response($isAlive);
         

@@ -58,7 +58,7 @@ class Database{
 				return $results;
 			}
 			else{
-				return false;
+				throw new Exception('No results');
 			}
 			
 		}
@@ -66,14 +66,5 @@ class Database{
 			return 'ERROR: ' . $e->getMessage();
 		}
 	}
-	
-	protected function retrieveNumeric($query, $data = null){
-		$nl = null;
-	}
-	
-
-	
-	
-
 }
 

@@ -37,7 +37,7 @@ class BacklinkManager{
 		}
 		
 		// The query
-		$query = 'INSERT INTO Backlinks(name, url, anchor_text, expiration, siteId) VALUES(:name, :url, :anchorText, :expiration, :siteId)';
+		$query = 'INSERT INTO Backlinks(display_text, url, anchor_text, expiration, siteId) VALUES(:displayText, :url, :anchorText, :expiration, :siteId)';
 		
 		// Access the database, send the query and update it
 		$this->database->update($query, $data);
@@ -73,10 +73,6 @@ class BacklinkManager{
         
     }
     
-    public function updateVisible(){
-        
-    }
-    
     public function updateNofollowStatus($backlinkId, $nofollowStatus){
         $query = 'UPDATE Backlinks SET nofollow_status = :nofollowStatus WHERE backlinkId = :backlinkId';
         $data = array(
@@ -87,13 +83,15 @@ class BacklinkManager{
         $this->database->update($query, $data);
     }
     
-    public function updateAlive(){
-        
+    public function getAllBacklinkUrls(){
+        $query = 'SELECT backlinkId, display_text, url, siteId FROM Backlinks';
+        return $this->database->retrieve($query);
     }
     
-    public function getAllBacklinkUrls(){
-        $query = 'SELECT backlinkId, name, url, siteId FROM Backlinks';
-        return $this->database->retrieve($query);
+    public function getBacklinkDisplayText($backlinkId){
+        $query = 'SELECT display_text FROM Backlinks WHERE backlinkId = :backlinkId';
+        $data = array(':backlinkId' => $backlinkId);
+        return $this->database->retrieve($query, $data);
     }
 	
 }

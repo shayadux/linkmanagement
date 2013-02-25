@@ -62,7 +62,7 @@ class BacklinkChecker{
         
         foreach($backlinks as $key => $backlink){
             
-            echo $backlink['name'];
+            echo $backlink['display_text'];
             
             $siteUrl = $this->siteManager->getSiteUrl($backlink['siteId']);
             
@@ -79,21 +79,19 @@ class BacklinkChecker{
             $attributes = $crawler->filter('a')->extract(array('_text', 'href', 'rel')); 
             
             foreach($attributes as $checkArray){
-                if($checkArray[0] == $backlink['name']){
+                if($checkArray[0] == $backlink['display_text']){
                     
                     $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 1);
                     
-                    if($checkArray[1] == $backlink['url']){
-                        if($checkArray != 'nofollow'){
-                            $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
-                        }
-                        else{
-                            $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
-                        }
-                    }
-                    else{
-                        echo 'wrong URL';
-                    }
+//                    if($checkArray[1] == $backlink['url']){
+//                        
+//                        $this->checkNofollow($backlink['backlinkId'], $checkArray[2]);
+//                        
+//                        
+//                    }
+//                    else{
+//                        echo 'wrong URL';
+//                    }
                 }
                 else{
                     $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 0);
@@ -106,20 +104,50 @@ class BacklinkChecker{
         
     }
     
-    public function hasAnchorText($backlinkId, $anchorText){
+    /**
+     * Check if the specified display text matches the link affiliates anchor text
+     * @param type $backlinkId
+     * @param type $anchorText
+     */
+    public function checkDisplayText($backlinkId, $anchorText){
+        
+        $backlink = $this->backlinkManager->getBacklinkDisplayText($backlinkId);
+        
+        $backlinkDisplayText = $backlink[0]['display_text'];
+        
+        if(strcasecmp($backlinkDisplayText, $anchorText)){
+            $this->backlinkManager->updateAnchorStatus($backlinkId, 1);
+            
+        }
+        else{
+            $this->backlinkManager->updateAnchorStatus($backlinkId, 0);
+        }
         
         
     }
     
-    public function hasNofollow(){
+    /**
+     * Check if the rel attribute is set to nofollow
+     * @param type $backlinkId
+     * @param type $nofollow
+     * @return boolean
+     */
+    public function checkNofollow($backlinkId, $nofollow){
         
+        $nofollow = strtolower(trim($nofollow));
+       
+        if($nofollow == 'nofollow'){
+            $this->backlinkManager->updateNofollowStatus($backlinkId, 0);
+            return false;
+        }
+        else{
+            $this->backlinkManager->updateNofollowStatus($backlinkId, 1);
+            return true;
+        }
     }
-    
-    public function isVisible(){
-        
-    }
-    
-    public function isUrl($url){
+
+       
+    public function checkUrl($backlinkId, $url){
         if(!filter_var($url, FILTER_VALIDATE_URL)){
 			throw new Exception('Not a valid URL');
 		}
