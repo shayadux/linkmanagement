@@ -66,11 +66,14 @@ class WebmasterController extends Controller{
 			
 			$form->bind($request);	
 			if($request->request->get('_delete')){
-				$webmaster->deleteWebmaster($webmasterId);
+				$webmasterManager->deleteWebmaster($webmasterId);
 				echo 'Deleted';        
 			}
 			else{
-				$webmaster->editWebmaster($webmasterId);
+                
+                $webmasterArray = get_object_vars($webmaster);
+                
+                $webmasterManager->editWebmaster($webmasterArray, $webmaster->webmasterId);
 			}
 		}
 		

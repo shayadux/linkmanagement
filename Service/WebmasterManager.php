@@ -95,21 +95,16 @@ class WebmasterManager{
 	 * @param int $webmasterId
 	 * @result 
 	 */
-	public function editWebmaster($webmasterId){
+	public function editWebmaster($webmasterArray, $webmasterId){
 		
-		$query = 'UPDATE Webmasters SET name = :name, email = :email, phone = :phone, social = :social, payment_method = :paymentMethod, payment_details = :paymentDetails, notes = :notes WHERE webmasterId = :webmasterId';
+        unset($webmasterArray['dateAdded']);
         
-        // DOUBLE CHECK THIS
-        $data = array(
-			':name' => $this->database->name, 
-			':email' => $this->database->email,
-			':phone' => $this->database->phone,
-			':social' => $this->database->social,
-			':paymentMethod' => $this->database->paymentMethod,
-			':paymentDetails' => $this->database->paymentDetails,
-			':notes' => $this->database->notes,
-			':webmasterId' => $webmasterId,
-		);
+		$query = 'UPDATE Webmasters SET name = :name, email = :email, phone = :phone, skype = :skype, icq = :icq, forum = :forum, forum_user = :forumUser, payment_method = :paymentMethod, payment_details = :paymentDetails, notes = :notes WHERE webmasterId = :webmasterId';
+        
+        $data = array();
+		foreach($webmasterArray as $key => $webmasterAttribute){
+			$data[':' . $key] = $webmasterAttribute;
+		}
 		
 		$this->database->update($query, $data);
 	}
