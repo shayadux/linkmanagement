@@ -22,6 +22,10 @@ class BacklinkChecker{
         $this->siteManager = $siteManager;
     }
     
+    /**
+     * 
+     * @return boolean
+     */
     public function areAlive(){
         
         // Get all the backlinks
@@ -57,6 +61,9 @@ class BacklinkChecker{
                         // and finally make sure they aren't screwing us over with rel="nofollow"
                         if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
                             return true;
+                        }
+                        else{
+                            throw new Exception('ERRRRRRRRRRRRRRR');
                         }
                     }
                 }
@@ -98,7 +105,8 @@ class BacklinkChecker{
         // Validate the retrieved URL
         // Trim a trailing slash from both URL's (rtrim)
         // Non case-senitive string comparison of the URL's
-        if(strcasecmp(rtrim($backlinkUrl, '/'), rtrim(filter_var($url, FILTER_VALIDATE_URL), '/')) === 0){
+        //if(strcasecmp(rtrim($backlinkUrl, '/'), rtrim(filter_var($url, FILTER_VALIDATE_URL), '/')) === 0){
+        if(strcasecmp($backlinkUrl, $url) === 0){    
             $this->backlinkManager->updateUrlStatus($backlinkId, 1);
             return true;
         }

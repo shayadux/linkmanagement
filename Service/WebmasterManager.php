@@ -17,14 +17,20 @@ class WebmasterManager{
 	 */
 	public function addWebmaster($webmasterArray){
 		
+        // Unset the unnecessary array elements
 		unset($webmasterArray['webmasterId']);
 		unset($webmasterArray['dateAdded']);
-				
+		
+        // Initialize an array to hold the data
 		$data = array();
+        
+        // Cycle through the remaining elements of the $webmasterArray and format 
+        // them for our prepared statement
 		foreach($webmasterArray as $key => $webmasterAttribute){
-			$data[':' . $key] = $webmasterAttribute;
+			// Take the existing array key and add a colon
+            $data[':' . $key] = $webmasterAttribute;
 		}
-			
+		
 		$query = 'INSERT INTO Webmasters(name, email, phone, skype, icq, forum, forum_user, payment_method, payment_details, notes) VALUES(:name, :email, :phone, :skype, :icq, :forum, :forumUser, :paymentMethod, :paymentDetails, :notes)';
 		
 		return $this->database->update($query, $data);
@@ -52,10 +58,8 @@ class WebmasterManager{
 	 * @result array
 	 */
 	public function getAllWebmasters(){
-		
 		$query = 'SELECT * FROM Webmasters';
 		return $this->database->retrieve($query);
-		
 	}
 	
 	/**
@@ -94,7 +98,9 @@ class WebmasterManager{
 	public function editWebmaster($webmasterId){
 		
 		$query = 'UPDATE Webmasters SET name = :name, email = :email, phone = :phone, social = :social, payment_method = :paymentMethod, payment_details = :paymentDetails, notes = :notes WHERE webmasterId = :webmasterId';
-		$data = array(
+        
+        // DOUBLE CHECK THIS
+        $data = array(
 			':name' => $this->database->name, 
 			':email' => $this->database->email,
 			':phone' => $this->database->phone,
