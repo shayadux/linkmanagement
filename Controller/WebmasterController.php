@@ -65,14 +65,17 @@ class WebmasterController extends Controller{
 		if($request->isMethod('POST')){
 			
 			$form->bind($request);	
+            
 			if($request->request->get('_delete')){
 				$webmasterManager->deleteWebmaster($webmasterId);
 				echo 'Deleted';        
 			}
 			else{
                 
+                // Get all properties of the instantiated Webmaster object
                 $webmasterArray = get_object_vars($webmaster);
                 
+                // Tell the WebmasterManager to update the Webmaster's information
                 $webmasterManager->editWebmaster($webmasterArray, $webmaster->webmasterId);
 			}
 		}
