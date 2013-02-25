@@ -106,6 +106,8 @@ class BacklinkChecker{
         // Trim a trailing slash from both URL's (rtrim)
         // Non case-senitive string comparison of the URL's
         //if(strcasecmp(rtrim($backlinkUrl, '/'), rtrim(filter_var($url, FILTER_VALIDATE_URL), '/')) === 0){
+        
+        // Keeping it simple for now...
         if(strcasecmp($backlinkUrl, $url) === 0){    
             $this->backlinkManager->updateUrlStatus($backlinkId, 1);
             return true;
