@@ -54,11 +54,21 @@ class BacklinkChecker{
             // Go through every single value we collected so we can...
             foreach($attributes as $checkArray){
                 
+                '<tt><pre>' . var_dump($checkArray) . '<tt><pre><br>';
+                
                 // ...check if our specified URL is on their page...
                 if($backlink['url'] == $checkArray[0]){
                     
-                    // ... the statement below should be in the if above, stopped working for somer reason
+                    // ... the statement below should be in the if above, stopped working for some reason
                     // placed as it is, if the URL is not on their page, it won't update the Backlinks table
+                    // to url_status = 0 if there is no link
+                    // 
+                    // The problem is that when the foreach starts again, it keeps updating the database, 
+                    // but it only needs to be updated to 1 if the url is found, and 0 if it is not found,
+                    // so it should only set url_status = 0 once it has checked the final URL of the result set.
+                    //
+                    // Instead of going through every backlink, start with a site and find associated backlinks
+                    // and then loop through those
                     $this->checkUrl($backlink['backlinkId'], $checkArray[0]);
                     
                     // ...check if they have the anchor text we want
@@ -66,14 +76,12 @@ class BacklinkChecker{
                         
                         //Store the affiliates anchor text for verification purposes
                         $this->storeAnchorText($backlinkId, $anchorText);
-                        
-                        
+                       
                         // and finally make sure they aren't screwing us over with rel="nofollow"
                         if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
 
                         }
                     }
-                    
                 }
             }
         }
