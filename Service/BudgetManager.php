@@ -53,19 +53,22 @@ class BudgetManager{
         $spent = floatval($budget[0]['spent']);
         $remaining = floatval($budget[0]['remaining']);
         $amount = floatval($amount);
-        
-        var_dump($remaining);
-        var_dump($amount);
-        
+
         unset($query);
         
-        $query = 'UPDATE Budgets SET remaining = :remaining, spent = :spent';
+        $query = 'UPDATE Budgets SET remaining = :remaining, spent = :spent WHERE budgetId = :budgetId';
         $data = array(
                     ':remaining' => bcsub($remaining, $amount, 2),
                     ':spent' => bcadd($spent, $amount, 2),
+                    ':budgetId' => $budgetId,
                 );
         
-        return $this->database->update($query, $data);
+        try{
+            $this->database->update($query, $data);
+        }
+        catch(Exception $e){
+            throw new Exception($e);
+        }
     }
     
     /**
@@ -86,12 +89,19 @@ class BudgetManager{
         
         $amount = floatval($amount);
 
-        $query = 'UPDATE Budgets SET deposited = :deposited, remaining = :remaining';
+        $query = 'UPDATE Budgets SET deposited = :deposited, remaining = :remaining WHERE budgetId = :budgetId';
         $data = array(
                     ':deposited' => bcadd($deposited, $amount, 2),
                     ':remaining' => bcadd($remaining, $amount, 2),
+                    ':budgetId' => $budgetId,
                 );
-        $this->database->update($query, $data);
+        
+        try{
+            $this->database->update($query, $data);
+        }
+        catch(Exception $e){
+            throw new Exception($e);
+        }
     }
     
     /**
@@ -101,7 +111,13 @@ class BudgetManager{
     public function remaining($budgetId){
         $query = 'SELECT remaining FROM Budgets WHERE budgetId = :budgetId';
         $data = array(':budgetId' => $budgetId);
-        $this->database->retrieve($query, $data);
+        
+        try{
+            $this->database->update($query, $data);
+        }
+        catch(Exception $e){
+            throw new Exception($e);
+        }
     }
     
     /**
@@ -111,7 +127,13 @@ class BudgetManager{
     public function spent($budgetId){
         $query = 'SELECT spent FROM Budgets WHERE budgetId = :budgetId';
         $data = array(':budgetId' => $budgetId);
-        $this->database->retrieve($query, $data);
+        
+        try{
+            $this->database->update($query, $data);
+        }
+        catch(Exception $e){
+            throw new Exception($e);
+        }
     }
     
     

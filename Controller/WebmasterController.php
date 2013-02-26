@@ -18,17 +18,28 @@ class WebmasterController extends Controller{
 	 */
 	public function addWebmasterAction(Request $request){
 		
+        // Insantiate a new Webmaster
 		$webmaster = new Webmaster();
+        
+        // Create the form
 		$form = $this->createForm(new WebmasterType(), $webmaster);
-					 
+		
+        // If there's a form submission...
 		if($request->isMethod('POST')){
 			
+            // Attach all entered values to the previously instantiated Webmaster object
 			$form->bind($request);
 			
+            // Access the WebmasterManager service
 			$webmasterManager = $this->get('lmt_webmaster_manager');
+            
+            // Get all properties of the instantiated Webmaster object
 			$webmasterArray = get_object_vars($webmaster);
-			if($webmasterManager->addWebmaster($webmasterArray)){
-				return new Response('Webmaster ' . $webmaster->getName() . ' successfully added');
+			
+            // If the Webmaster is added successfully... 
+            if($webmasterManager->addWebmaster($webmasterArray)){
+				// Give the user some feedback
+                return new Response('Webmaster ' . $webmaster->getName() . ' successfully added');
 			}
 		}
 		
@@ -41,13 +52,18 @@ class WebmasterController extends Controller{
 	 * Edit a webmaster
 	 */
 	public function editWebmasterAction(Request $request, $webmasterId){
-
+        
+        // Insantiate a new Webmaster
 		$webmaster = new Webmaster();
 		
+        // Access the WebmasterManager service
 		$webmasterManager = $this->get('lmt_webmaster_manager');
 		
+        // Retrieve all information for a given Webmaster
 		$webmasterInfo = $webmasterManager->getWebmaster($webmasterId);
 		
+        // Store all retrieved information in the insantiated Webmaster object
+        // This allows us to fill our edit form with the existing data
 		$webmaster->setWebmasterId($webmasterInfo['webmasterId']);
 		$webmaster->setName($webmasterInfo['name']);
 		$webmaster->setEmail($webmasterInfo['email']);
@@ -60,15 +76,24 @@ class WebmasterController extends Controller{
 		$webmaster->setPaymentDetails($webmasterInfo['payment_details']);
 		$webmaster->setNotes($webmasterInfo['notes']);
 		
+        // Render a form with out Webmaster information preloaded into the fields
 		$form = $this->createForm(new WebmasterType(), $webmaster);
 		
+        // If there's a form submission...
 		if($request->isMethod('POST')){
 			
+            // Attach all modified values to the previously instantiated Webmaster object
 			$form->bind($request);	
             
+            // If the user hits the Delete button...
 			if($request->request->get('_delete')){
+                // ...delete the Webmaster
 				$webmasterManager->deleteWebmaster($webmasterId);
-				echo 'Deleted';        
+				
+                // Give the user some feedback 
+                $msg = 'Webmaster ' . $webmaster->getName() . ' has been deleted <br />';
+                $msg .= 'You can click Submit to restore the webmaster in case of accidental deletion.';
+                echo $msg;
 			}
 			else{
                 
@@ -77,6 +102,9 @@ class WebmasterController extends Controller{
                 
                 // Tell the WebmasterManager to update the Webmaster's information
                 $webmasterManager->editWebmaster($webmasterArray, $webmaster->webmasterId);
+                
+                // Give the user some feedback
+                echo 'Webmaster ' . $webmaster->getName() . ' has been modified';
 			}
 		}
 		
@@ -86,9 +114,16 @@ class WebmasterController extends Controller{
         ));
 	}
 	
+    /**
+     * View all the webmasters
+     * @return type
+     */
 	public function viewAllWebmastersAction(){
 		
+        // Access the WebmasterManager service
 		$webmasterManager = $this->get('lmt_webmaster_manager');
+        
+        // Get every webmasters information as an array
 		$allWebmasters = $webmasterManager->getAllWebmasters();
 		
 		return $this->render('ShaythamcLinkManagementBundle:Webmaster:all.html.twig', array(
@@ -96,10 +131,19 @@ class WebmasterController extends Controller{
         ));
 	}
 	
+    /**
+     * NOT TESTED
+     * @param type $webmasterId
+     * @return type
+     */
 	public function viewLinksByWebmasterAction($webmasterId){
-		$webmasterManager = $this->get('lmt_webmaster_manager');;
 		
+        // Access the WebmasterManager service
+        $webmasterManager = $this->get('lmt_webmaster_manager');
+        
+        // Get the links associated with a given webmaster
 		$linksByWebmaster = $webmasterManager->getLinksByWebmaster($webmasterId);
+        
 		return $this->render('ShaythamcLinkManagementBundle:Webmaster:links.html.twig', array(
             'webmaster' => $linksByWebmaster,
         ));

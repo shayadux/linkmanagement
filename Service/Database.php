@@ -2,7 +2,8 @@
 
 namespace Shaythamc\LinkManagementBundle\Service;
 
-use PDO;
+use \PDO;
+use \Exception;
 
 class Database{
 	
