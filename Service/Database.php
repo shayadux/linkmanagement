@@ -55,12 +55,12 @@ class Database{
 			$statement->execute($data);
 			$results = $statement->fetchAll(PDO::FETCH_ASSOC);
 						
-			if(count($results) !== 0){
+//			if(count($results) !== 0){
 				return $results;
-			}
-			else{
-				throw new Exception('No results');
-			}
+//			}
+//			else{
+//				throw new Exception('No results buddy');
+//			}
 			
 		}
 		catch(PDOException $e){

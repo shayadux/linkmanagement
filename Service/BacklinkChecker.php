@@ -54,21 +54,38 @@ class BacklinkChecker{
             // Go through every single value we collected so we can...
             foreach($attributes as $checkArray){
                 
-                // ...check if our specified URL is on their page
-                if($this->checkUrl($backlink['backlinkId'], $checkArray[0])){
+                // ...check if our specified URL is on their page...
+                if($backlink['url'] == $checkArray[0]){
+                    
+                    // ... the statement below should be in the if above, stopped working for somer reason
+                    // placed as it is, if the URL is not on their page, it won't update the Backlinks table
+                    $this->checkUrl($backlink['backlinkId'], $checkArray[0]);
+                    
                     // ...check if they have the anchor text we want
                     if($this->checkDisplayText($backlink['backlinkId'], $checkArray[1])){
+                        
+                        //Store the affiliates anchor text for verification purposes
+                        $this->storeAnchorText($backlinkId, $anchorText);
+                        
+                        
                         // and finally make sure they aren't screwing us over with rel="nofollow"
                         if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
-                            return true;
-                        }
-                        else{
-                            throw new Exception('ERRRRRRRRRRRRRRR');
+
                         }
                     }
+                    
                 }
             }
         }
+    }
+    
+    /**
+     * Store the affiliates anchor text for verification purposes
+     * @param type $backlinkId
+     * @param type $anchorText
+     */
+    public function storeAnchorText($backlinkId, $anchorText){
+        $this->backlinkManager->updateAnchorText($backlinkId, $anchorText);
     }
     
     /**

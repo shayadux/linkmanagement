@@ -38,7 +38,8 @@ class WebmasterController extends Controller{
 			
             // If the Webmaster is added successfully... 
             if($webmasterManager->addWebmaster($webmasterArray)){
-				// Give the user some feedback
+				
+                // Give the user some feedback
                 return new Response('Webmaster ' . $webmaster->getName() . ' successfully added');
 			}
 		}
@@ -91,9 +92,8 @@ class WebmasterController extends Controller{
 				$webmasterManager->deleteWebmaster($webmasterId);
 				
                 // Give the user some feedback 
-                $msg = 'Webmaster ' . $webmaster->getName() . ' has been deleted <br />';
-                $msg .= 'You can click Submit to restore the webmaster in case of accidental deletion.';
-                echo $msg;
+                $msg = 'Webmaster ' . $webmaster->getName() . ' with ID# ' . $webmaster->getWebmasterId() . ' has been deleted <br />';
+                return new Response($msg);
 			}
 			else{
                 
@@ -107,8 +107,8 @@ class WebmasterController extends Controller{
                 echo 'Webmaster ' . $webmaster->getName() . ' has been modified';
 			}
 		}
-		
-		return $this->render('ShaythamcLinkManagementBundle:Webmaster:edit.html.twig', array(
+
+        return $this->render('ShaythamcLinkManagementBundle:Webmaster:edit.html.twig', array(
             'form' => $form->createView(),
             'webmasterId' => $webmasterId,
         ));

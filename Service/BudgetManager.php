@@ -24,7 +24,12 @@ class BudgetManager{
                     ':spent' => 0,
             );
         
-        $this->database->update($query, $data);
+        try{
+            $this->database->update($query, $data);
+        }
+        catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
     
     /**
@@ -33,7 +38,13 @@ class BudgetManager{
      */
     public function getAllBudgets(){
         $query = 'SELECT * FROM Budgets';
-        return $this->database->retrieve($query);
+        
+        try{
+            return $this->database->retrieve($query);
+        }
+        catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
 	
     /**
@@ -67,7 +78,7 @@ class BudgetManager{
             $this->database->update($query, $data);
         }
         catch(Exception $e){
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
     
@@ -100,7 +111,7 @@ class BudgetManager{
             $this->database->update($query, $data);
         }
         catch(Exception $e){
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
     
@@ -116,7 +127,7 @@ class BudgetManager{
             $this->database->update($query, $data);
         }
         catch(Exception $e){
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
     
@@ -132,7 +143,7 @@ class BudgetManager{
             $this->database->update($query, $data);
         }
         catch(Exception $e){
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
     

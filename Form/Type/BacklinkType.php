@@ -14,7 +14,6 @@ class BacklinkType extends AbstractType{
 		
 		$builder->add('displayText', 'text')
 				->add('url', 'text')
-				->add('anchorText', 'text')
 				->add('expiration', 'text')
 				->add('siteId', 'choice', array(
 					'choice_list' => new SiteChoiceList(),
@@ -24,7 +23,6 @@ class BacklinkType extends AbstractType{
 					//~ 'choices'   => array('m' => 'Male', 'f' => 'Female'),
 					//~ 'required'  => false,
 				//~ ))
-				->add('alive', 'checkbox', array('required' => false))
 				->getForm();
 	}
 	

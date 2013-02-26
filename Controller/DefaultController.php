@@ -14,8 +14,8 @@ class DefaultController extends Controller
         
     
         $backlinkChecker = $this->get('lmt_backlink_checker');
-//        echo $backlinkChecker->checkDisplayText();
-        $areAlive = $backlinkChecker->areAlive();
+       echo $backlinkChecker->checkDisplayText(12, "iPhone Porn");
+        $backlinkChecker->areAlive();
         //return new Response($isAlive);
         
         return $this->render('ShaythamcLinkManagementBundle:Default:index.html.twig');
