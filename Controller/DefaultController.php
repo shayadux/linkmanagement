@@ -14,7 +14,8 @@ class DefaultController extends Controller
         
     
         $backlinkChecker = $this->get('lmt_backlink_checker');
-       echo $backlinkChecker->checkDisplayText(12, "iPhone Porn");
+        //echo $backlinkChecker->checkDisplayText(12, "iPhone Porn");
+        $backlinkChecker->verify();
         $backlinkChecker->areAlive();
         //return new Response($isAlive);
         

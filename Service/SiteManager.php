@@ -63,7 +63,8 @@ class SiteManager{
     public function getSiteUrl($siteId){
         $query = 'SELECT url FROM Sites WHERE siteId = :siteId';
         $data = array(':siteId' => $siteId);
-        return $this->database->retrieve($query, $data);
+        $result = $this->database->retrieve($query, $data);
+        return $result[0];
     }
 	
 	/**
@@ -124,6 +125,11 @@ class SiteManager{
 		$this->database->update($query, $data);
 		
 	}
+    
+    public function getAllSiteId(){
+        $query = 'SELECT siteId FROM Sites';
+        return $this->database->retrieve($query);
+    }
 
 
 }

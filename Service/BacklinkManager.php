@@ -198,5 +198,20 @@ class BacklinkManager{
         $query = 'SELECT nofollow_status, backlinkId FROM Backlinks';
         return $this->database->retrieve($query);
     }
+    
+    public function getAllBacklinkSiteId(){
+        $query = 'SELECT siteId, backlinkId FROM Backlinks';
+        return $this->database->retrieve($query);
+    }
+    
+    public function getBacklinkBySiteId($siteId){
+        $query = 'SELECT backlinkId, display_text, url FROM Backlinks WHERE siteId = :siteId';
+        $data = array(
+                    ':siteId' => $siteId,
+                );
+        return $this->database->retrieve($query, $data);
+    }
+    
+
 	
 }

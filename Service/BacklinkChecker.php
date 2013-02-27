@@ -22,6 +22,53 @@ class BacklinkChecker{
         $this->siteManager = $siteManager;
     }
     
+    
+    public function verify(){
+        
+        // Get all the sites...
+        $sites = $this->siteManager->getAllSiteId();
+        
+        // Initialize an array to store backlinks by siteId
+        $backlinksBySiteId = array();
+        
+        // Get all the backlinks by siteId       
+        foreach($sites as $key => $site){
+            
+            // Store backlinks by as a subarray of $backlinkBySiteId and define the siteId as the key
+            $backlinksBySiteId[$site['siteId']] = array();
+            array_push($backlinksBySiteId[$site['siteId']], $this->backlinkManager->getBacklinkBySiteId($site['siteId']));
+        }
+        
+        //
+        
+        foreach($backlinksBySiteId as $key => $backlink){
+            
+            
+            $siteUrl = $this->siteManager->getSiteUrl($key);
+            
+            
+            echo '<pre>';
+        
+            var_dump($siteUrl);
+
+            echo '</pre>';
+            
+            
+            
+            
+        }
+        
+        
+        echo '<pre>';
+        
+        var_dump($backlinksBySiteId);
+        
+        echo '</pre>';
+        
+        echo $this->backlinkManager->getBacklinkBySiteId(35);
+        
+    }
+    
     /**
      * 
      * @return boolean
@@ -38,7 +85,7 @@ class BacklinkChecker{
             $siteUrl = $this->siteManager->getSiteUrl($backlink['siteId']);
             
             // Request the contents of the affiliate web page
-            $client = new Client($siteUrl[0]['url']);
+            $client = new Client($siteUrl['url']);
             $httpRequest = $client->get();
             $httpResponse = $httpRequest->send();
             
@@ -54,35 +101,58 @@ class BacklinkChecker{
             // Go through every single value we collected so we can...
             foreach($attributes as $checkArray){
                 
-//                '<tt><pre>' . var_dump($checkArray) . '<tt><pre><br>';
                 
-                // ...check if our specified URL is on their page...
-                if($backlink['url'] == $checkArray[0]){
+                // Check to see if the URL matches our backlinkURL
+                if($this->checkUrl($backlink['backlinkId'], $checkArray[0])){
                     
-                    // ... the statement below should be in the if above, stopped working for some reason
-                    // placed as it is, if the URL is not on their page, it won't update the Backlinks table
-                    // to url_status = 0 if there is no link
-                    // 
-                    // The problem is that when the foreach starts again, it keeps updating the database, 
-                    // but it only needs to be updated to 1 if the url is found, and 0 if it is not found,
-                    // so it should only set url_status = 0 once it has checked the final URL of the result set.
-                    //
-                    // Instead of going through every backlink, start with a site and find associated backlinks
-                    // and then loop through those
-                    $this->checkUrl($backlink['backlinkId'], $checkArray[0]);
+                    // If true, then update the url_status to 1 
+                    $this->backlinkManager->updateUrlStatus($backlink['backlinkId'], 1);
                     
-                    // ...check if they have the anchor text we want
+                    // Check if the backlink has the right anchor text
                     if($this->checkDisplayText($backlink['backlinkId'], $checkArray[1])){
                         
-                        //Store the affiliates anchor text for verification purposes
+                        // If true, then update the anchor_status to 1
+                        $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 1);
+                        
+                        // Also keep a copy of their anchor text for manual verification
                         $this->storeAnchorText($backlink['backlinkId'], $checkArray[1]);
-                       
-                        // and finally make sure they aren't screwing us over with rel="nofollow"
-                        if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
-
-                        }
+                        break;
                     }
+                    else{ 
+                    // If anchor text doesn't match...
+                        
+                        // Store the anchor text for manual verification
+                        $this->storeAnchorText($backlink['backlinkId'], $checkArray[1]);
+                        
+                        // Update the anchor_status to 0
+                        $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 0);
+                    }
+                    
+                    // Check if there is a rel="nofollow" attribute
+                    if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
+                        
+                        // If true, then update the nofollow_status to 0
+                        $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
+                        break;
+                    }
+                    else{ 
+                    // Otherwise, there is no "nofollow" and we're good
+                        
+                        // ... and we update the nofollow_status to 1
+                        $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
+                    }
+                    
+                    break;
                 }
+                else{
+                    
+                    $this->backlinkManager->updateUrlStatus($backlink['backlinkId'], 0);
+                    $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 0);
+                    $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
+                }
+                
+
+
             }
         }
     }
@@ -107,12 +177,12 @@ class BacklinkChecker{
         $backlinkDisplayText = $this->backlinkManager->getBacklinkDisplayText($backlinkId);
                 
         if(strcasecmp($backlinkDisplayText, $anchorText) == 0){
-            $this->backlinkManager->updateAnchorStatus($backlinkId, 1);
+            //$this->backlinkManager->updateAnchorStatus($backlinkId, 1);
             return true;
             
         }
         else{
-            $this->backlinkManager->updateAnchorStatus($backlinkId, 0);
+            //$this->backlinkManager->updateAnchorStatus($backlinkId, 0);
             return false;
         }
     }
@@ -134,11 +204,11 @@ class BacklinkChecker{
         
         // Keeping it simple for now...
         if(strcasecmp($backlinkUrl, $url) === 0){    
-            $this->backlinkManager->updateUrlStatus($backlinkId, 1);
+//            $this->backlinkManager->updateUrlStatus($backlinkId, 1);
             return true;
         }
         else{
-            $this->backlinkManager->updateUrlStatus($backlinkId, 0);
+//            $this->backlinkManager->updateUrlStatus($backlinkId, 0);
             return false;
         }
     }
@@ -170,11 +240,11 @@ class BacklinkChecker{
 //        }
         
         if($nofollow == 'nofollow'){
-            $this->backlinkManager->updateNofollowStatus($backlinkId, 0);
+            //$this->backlinkManager->updateNofollowStatus($backlinkId, 0);
             return false;
         }
         else{
-            $this->backlinkManager->updateNofollowStatus($backlinkId, 1);
+            //$this->backlinkManager->updateNofollowStatus($backlinkId, 1);
             return true;
         }
     }
