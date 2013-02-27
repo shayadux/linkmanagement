@@ -18,55 +18,7 @@ class BacklinkChecker{
     public function __construct(BacklinkManager $backlinkManager, SiteManager $siteManager){
         $this->backlinkManager = $backlinkManager;
         $this->backlinks = $this->backlinkManager->getAllBacklinkUrls();
-        
         $this->siteManager = $siteManager;
-    }
-    
-    
-    public function verify(){
-        
-        // Get all the sites...
-        $sites = $this->siteManager->getAllSiteId();
-        
-        // Initialize an array to store backlinks by siteId
-        $backlinksBySiteId = array();
-        
-        // Get all the backlinks by siteId       
-        foreach($sites as $key => $site){
-            
-            // Store backlinks by as a subarray of $backlinkBySiteId and define the siteId as the key
-            $backlinksBySiteId[$site['siteId']] = array();
-            array_push($backlinksBySiteId[$site['siteId']], $this->backlinkManager->getBacklinkBySiteId($site['siteId']));
-        }
-        
-        //
-        
-        foreach($backlinksBySiteId as $key => $backlink){
-            
-            
-            $siteUrl = $this->siteManager->getSiteUrl($key);
-            
-            
-            echo '<pre>';
-        
-            var_dump($siteUrl);
-
-            echo '</pre>';
-            
-            
-            
-            
-        }
-        
-        
-        echo '<pre>';
-        
-        var_dump($backlinksBySiteId);
-        
-        echo '</pre>';
-        
-        echo $this->backlinkManager->getBacklinkBySiteId(35);
-        
     }
     
     /**
@@ -101,7 +53,6 @@ class BacklinkChecker{
             // Go through every single value we collected so we can...
             foreach($attributes as $checkArray){
                 
-                
                 // Check to see if the URL matches our backlinkURL
                 if($this->checkUrl($backlink['backlinkId'], $checkArray[0])){
                     
@@ -114,8 +65,9 @@ class BacklinkChecker{
                         // If true, then update the anchor_status to 1
                         $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 1);
                         
-                        // Also keep a copy of their anchor text for manual verification
+                        // Also keep a copy of their anchor text for manual verification anyway
                         $this->storeAnchorText($backlink['backlinkId'], $checkArray[1]);
+                        
                         break;
                     }
                     else{ 
@@ -133,10 +85,11 @@ class BacklinkChecker{
                         
                         // If true, then update the nofollow_status to 0
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
+                        
                         break;
                     }
                     else{ 
-                    // Otherwise, there is no "nofollow" and we're good
+                    // Otherwise, there isn't a "nofollow" and we're good
                         
                         // ... and we update the nofollow_status to 1
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
@@ -150,40 +103,7 @@ class BacklinkChecker{
                     $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 0);
                     $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
                 }
-                
-
-
             }
-        }
-    }
-    
-    /**
-     * Store the affiliates anchor text for verification purposes
-     * @param type $backlinkId
-     * @param type $anchorText
-     */
-    public function storeAnchorText($backlinkId, $anchorText){
-        $this->backlinkManager->updateAnchorText($backlinkId, $anchorText);
-    }
-    
-    /**
-     * Check if the specified display text matches the link affiliates anchor text
-     * @param type $backlinkId
-     * @param type $anchorText
-     * @return boolean
-     */
-    public function checkDisplayText($backlinkId, $anchorText){
-        
-        $backlinkDisplayText = $this->backlinkManager->getBacklinkDisplayText($backlinkId);
-                
-        if(strcasecmp($backlinkDisplayText, $anchorText) == 0){
-            //$this->backlinkManager->updateAnchorStatus($backlinkId, 1);
-            return true;
-            
-        }
-        else{
-            //$this->backlinkManager->updateAnchorStatus($backlinkId, 0);
-            return false;
         }
     }
     
@@ -204,15 +124,37 @@ class BacklinkChecker{
         
         // Keeping it simple for now...
         if(strcasecmp($backlinkUrl, $url) === 0){    
-//            $this->backlinkManager->updateUrlStatus($backlinkId, 1);
             return true;
         }
-        else{
-//            $this->backlinkManager->updateUrlStatus($backlinkId, 0);
-            return false;
-        }
+
+        return false;
     }
     
+    /**
+     * Check if the specified display text matches the link affiliates anchor text
+     * @param type $backlinkId
+     * @param type $anchorText
+     * @return boolean
+     */
+    public function checkDisplayText($backlinkId, $anchorText){
+        
+        $backlinkDisplayText = $this->backlinkManager->getBacklinkDisplayText($backlinkId);
+                
+        if(strcasecmp($backlinkDisplayText, $anchorText) == 0){            //$this->backlinkManager->updateAnchorStatus($backlinkId, 1);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Store the affiliates anchor text for verification purposes
+     * @param type $backlinkId
+     * @param type $anchorText
+     */
+    public function storeAnchorText($backlinkId, $anchorText){
+        $this->backlinkManager->updateAnchorText($backlinkId, $anchorText);
+    }
     
     /**
      * Check if the rel attribute is set to nofollow
@@ -240,13 +182,10 @@ class BacklinkChecker{
 //        }
         
         if($nofollow == 'nofollow'){
-            //$this->backlinkManager->updateNofollowStatus($backlinkId, 0);
             return false;
         }
-        else{
-            //$this->backlinkManager->updateNofollowStatus($backlinkId, 1);
-            return true;
-        }
+        
+        return true;
     }
 
        
