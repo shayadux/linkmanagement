@@ -54,7 +54,7 @@ class BacklinkChecker{
             // Go through every single value we collected so we can...
             foreach($attributes as $checkArray){
                 
-                '<tt><pre>' . var_dump($checkArray) . '<tt><pre><br>';
+//                '<tt><pre>' . var_dump($checkArray) . '<tt><pre><br>';
                 
                 // ...check if our specified URL is on their page...
                 if($backlink['url'] == $checkArray[0]){
@@ -75,7 +75,7 @@ class BacklinkChecker{
                     if($this->checkDisplayText($backlink['backlinkId'], $checkArray[1])){
                         
                         //Store the affiliates anchor text for verification purposes
-                        $this->storeAnchorText($backlinkId, $anchorText);
+                        $this->storeAnchorText($backlink['backlinkId'], $checkArray[1]);
                        
                         // and finally make sure they aren't screwing us over with rel="nofollow"
                         if($this->checkNofollow($backlink['backlinkId'], $checkArray[2])){
