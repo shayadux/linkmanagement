@@ -90,7 +90,7 @@ class AlertManager{
         // Go through every element of the result set
         foreach($allBacklinkNofollowStatus as $key => $nofollowStatusInfo){
             
-            // If any backlink has a nofollow_status = 0...
+            // If any backlink has a nofollow_status = 1...
             if($nofollowStatusInfo['nofollow_status'] == 1){
                 
                 // ...then store it in the nofolllowStatusArray
