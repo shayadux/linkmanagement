@@ -9,6 +9,9 @@ use Guzzle\Service\Client;
 
 use \Exception;
 
+/**
+ * Check if the Backlinks are valid
+ */
 class BacklinkChecker{
     
     protected $backlinkManager;
@@ -22,7 +25,7 @@ class BacklinkChecker{
     }
     
     /**
-     * 
+     * Check if the affiliate links are alive
      * @return boolean
      */
     public function areAlive(){
@@ -67,8 +70,6 @@ class BacklinkChecker{
                         
                         // Also keep a copy of their anchor text for manual verification anyway
                         $this->storeAnchorText($backlink['backlinkId'], $checkArray[1]);
-                        
-                        break;
                     }
                     else{ 
                     // If anchor text doesn't match...
@@ -85,8 +86,6 @@ class BacklinkChecker{
                         
                         // If true, then update the nofollow_status to 0
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
-                        
-                        break;
                     }
                     else{ 
                     // Otherwise, there isn't a "nofollow" and we're good
@@ -98,7 +97,7 @@ class BacklinkChecker{
                     break;
                 }
                 else{
-                    
+                    // No matches found so set url_status, anchor_status, nofollow_status to 0
                     $this->backlinkManager->updateUrlStatus($backlink['backlinkId'], 0);
                     $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 0);
                     $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
@@ -188,7 +187,7 @@ class BacklinkChecker{
         return true;
     }
 
-       
+    
 
     
 }

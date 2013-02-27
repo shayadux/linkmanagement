@@ -19,6 +19,12 @@ class AlertManager{
     protected $backlinkNoFollowStatus;
     protected $backlinkVisibleStatus;
     
+    public $urlStatusArray = array();
+    public $anchorStatusArray = array();
+    public $nofollowStatusArray = array();
+    public $visibleStatusArray = array();
+    
+    
     public function __construct(BacklinkManager $backlinkManager, SiteManager $siteManager, BacklinkChecker $backlinkChecker, BudgetManager $budgetManager){
         
         $this->backlinkManager = $backlinkManager;
@@ -26,33 +32,84 @@ class AlertManager{
         $this->backlinkChecker = $backlinkChecker;
         $this->budgetManager = $budgetManager;
         
+        $this->urlStatus();
+        $this->anchorStatus();
+        $this->nofollowStatus();
         
-        
+        $this->notify();
     }
     
-    public function checkAllUrlStatus(){
+    /**
+     * Collect the URL status of all the backlinks
+     */
+    public function urlStatus(){
         
-        $urlStatus = $this->backlinkManager->getAllBacklinkUrlStatus();
+        // Retrieve the url_status and backlinkId from the Backlinks table
+        $allBacklinkUrlStatus = $this->backlinkManager->getAllBacklinkUrlStatus();
         
-        var_dump($urlStatus);
-        
-        
+        // Go through every element of the result set
+        foreach($allBacklinkUrlStatus as $key => $urlStatusInfo){
+            
+            // If any backlink has an url_status = 0... 
+            if($urlStatusInfo['url_status'] == 0){
+                
+                // ...then store it in the urlStatusArray
+                array_push($this->urlStatusArray, $urlStatusInfo);
+            }
+        }
     }
     
-    public function checkAllAnchorStatus(){
+    /**
+     * Collect the anchor status of all the backlinks
+     */
+    public function anchorStatus(){
         
+        // Retrieve the anchor_status and backlinkId from the Backlinks table
+        $allBacklinkAnchorStatus = $this->backlinkManager->getAllBacklinkAnchorStatus();
         
-        
-        
+        // Go through every element of the result set
+        foreach($allBacklinkAnchorStatus as $key => $anchorStatusInfo){
+            
+            // If any backlink has an anchor_status = 0...
+            if($anchorStatusInfo['anchor_status'] == 0){
+                
+                // ...then store it in the anchorStatusArray
+                array_push($this->anchorStatusArray, $anchorStatusInfo);
+            }
+        }
     }
     
-    public function checkNofollowStatus(){}
+    /**
+     * Collect the nofollow status of all the backlinks
+     */
+    public function nofollowStatus(){
+        
+        // Retrieve the nofollow_status and backlinkId from the Backlinks table
+        $allBacklinkNofollowStatus = $this->backlinkManager->getAllBacklinkNofollowStatus();
+        
+        // Go through every element of the result set
+        foreach($allBacklinkNofollowStatus as $key => $nofollowStatusInfo){
+            
+            // If any backlink has a nofollow_status = 0...
+            if($nofollowStatusInfo['nofollow_status'] == 1){
+                
+                // ...then store it in the nofolllowStatusArray
+                array_push($this->nofollowStatusArray, $nofollowStatusInfo);
+            }
+        }  
+    }
     
-    public function checkVisibleStatus(){}
+    public function visibleStatus(){}
     
-    public function checkBudget(){}
+    public function budgetStatus(){}
     
-    public function notify(){}
+    public function notify(){
+        
+        $totalCount = count($this->urlStatusArray) + count($this->anchorStatusArray) + count($this->nofollowStatusArray);
+        
+        echo 'you have ' . $totalCount . ' backlinks that need to be checked.';
+        
+    }
     
     
 }
