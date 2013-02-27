@@ -90,7 +90,7 @@ class BacklinkChecker{
                     else{ 
                     // Otherwise, there isn't a "nofollow" and we're good
                         
-                        // ... and we update the nofollow_status to 1
+                        // ...and we update the nofollow_status to 1
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
                     }
                     
@@ -187,7 +187,9 @@ class BacklinkChecker{
         return true;
     }
 
-    
+    public function isVisible(){
+        
+    }
 
     
 }
