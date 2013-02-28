@@ -19,17 +19,17 @@ class BacklinkChecker{
     public $backlinks;
     
     public function __construct(BacklinkManager $backlinkManager, SiteManager $siteManager){
+        
+        // Load the BacklinkManager and SiteManager
         $this->backlinkManager = $backlinkManager;
-        $this->backlinks = $this->backlinkManager->getAllBacklinkUrls();
         $this->siteManager = $siteManager;
     }
-    
-    /**
-     * Check if the affiliate links are alive
-     * @return boolean
-     */
-    public function areAlive(){
         
+    public function check(){
+        
+        // Get all the backlink url's
+        $this->backlinks = $this->backlinkManager->getAllBacklinkUrls();
+    
         // Get all the backlinks
         $backlinks = $this->backlinks;
         
@@ -38,8 +38,6 @@ class BacklinkChecker{
             
             // Get the site associated with the current backlink
             $siteUrl = $this->siteManager->getSiteUrl($backlink['siteId']);
-            
-            echo $siteUrl['url'] . PHP_EOL;
             
             // Request the contents of the affiliate web page
             $client = new Client($siteUrl['url']);
@@ -61,16 +59,12 @@ class BacklinkChecker{
                 // Check to see if the URL matches our backlinkURL
                 if($this->checkUrl($backlink['backlinkId'], $checkArray[0])){
                     
-                    echo $checkArray[0] . PHP_EOL;
-                    
                     // If true, then update the url_status to 1 
                     $this->backlinkManager->updateUrlStatus($backlink['backlinkId'], 1);
                     
                     // Check if the backlink has the right anchor text
                     if($this->checkDisplayText($backlink['backlinkId'], $checkArray[1])){
-                        
-                        echo $checkArray[1] . PHP_EOL;
-                        
+
                         // If true, then update the anchor_status to 1
                         $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 1);
                         
@@ -99,6 +93,9 @@ class BacklinkChecker{
                         // ...and we update the nofollow_status to 1
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
                     }
+                    
+                    // Tell the console the link has been checked
+                    echo '-->CHECKED BACKLINK WITH ID# ' . $backlink['backlinkId'] . PHP_EOL;
                     
                     break;
                 }

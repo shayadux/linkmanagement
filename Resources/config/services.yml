@@ -8,6 +8,7 @@ parameters:
     shaythamc_link_management_backlink_manager.class: Shaythamc\LinkManagementBundle\Service\BacklinkManager
     shaythamc_link_management_budget_manager.class: Shaythamc\LinkManagementBundle\Service\BudgetManager
     shaythamc_link_management_backlink_checker.class: Shaythamc\LinkManagementBundle\Service\BacklinkChecker
+    shaythamc_link_management_site_checker.class: Shaythamc\LinkManagementBundle\Service\SiteChecker
     shaythamc_link_management_alert_manager.class: Shaythamc\LinkManagementBundle\Service\AlertManager
     
 services:
@@ -37,6 +38,9 @@ services:
     lmt_backlink_checker:
         class: %shaythamc_link_management_backlink_checker.class%
         arguments: [@lmt_backlink_manager, @lmt_site_manager]
+    lmt_site_checker:
+        class: %shaythamc_link_management_site_checker.class%
+        arguments: [@lmt_site_manager, @seostats]       
     lmt_alert_manager:
         class: %shaythamc_link_management_alert_manager.class%
         arguments: [@lmt_backlink_manager, @lmt_site_manager, @lmt_backlink_checker, @lmt_budget_manager]

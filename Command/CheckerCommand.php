@@ -13,15 +13,16 @@ class CheckerCommand extends ContainerAwareCommand{
     
     protected function configure(){
         $this->setName('lmt:checker')
-             ->setDescription('Check all backlinks');
+             ->setDescription('Check all Sites for GooglePR, AlexaPR and check all Backlinks are valid');
     }
     
     protected function execute(InputInterface $input, OutputInterface $output){
         $backlinkChecker = $this->getContainer()->get('lmt_backlink_checker');
-        if($backlinkChecker->areAlive() === true){
-            $output->writeln('success');
-        }
+        $backlinkChecker->check();
         
+        $siteChecker = $this->getContainer()->get('lmt_site_checker');
+        $siteChecker->checkGooglePR();
+        $siteChecker->checkAlexaGR();
     }
     
 }

@@ -24,7 +24,10 @@ class SiteManager{
 		unset($siteArray['siteId']);
 		unset($siteArray['dateAdded']);
 		unset($siteArray['totalCost']);
+		unset($siteArray['googlePR']);
+		unset($siteArray['alexaGR']);
 		
+        
 		// Prepend a colon to each array key to format it for our
 		// prepared statement
 		$data = array();
@@ -66,6 +69,11 @@ class SiteManager{
         $result = $this->database->retrieve($query, $data);
         return $result[0];
     }
+    
+    public function getAllSiteUrlWithId(){
+        $query = 'SELECT siteId, url FROM Sites';
+        return $this->database->retrieve($query);
+    }
 	
 	/**
 	 * Get all sites and all information associated with all links
@@ -86,7 +94,10 @@ class SiteManager{
 		$query = 'UPDATE Sites SET title = :title, url = :url, webmasterId = :webmasterId, keyword = :keyword, page_found = :pageFound, source = :source, notes = :notes WHERE siteId = :siteId';
 		
 		unset($siteArray['dateAdded']);
-		
+        unset($siteArray['totalCost']);
+		unset($siteArray['googlePR']);
+		unset($siteArray['alexaGR']);
+        
 		$data = array();
 		foreach($siteArray as $key => $siteAttribute){
 			$data[':' . $key] = $siteAttribute;
@@ -94,6 +105,24 @@ class SiteManager{
 		
 		$this->database->update($query, $data);
 	}
+    
+    public function updateGooglePR($googlePR, $siteId){
+        $query = 'UPDATE Sites SET google_pr = :googlePR WHERE siteId = :siteId';
+        $data = array(
+                    ':googlePR' => $googlePR,
+                    ':siteId' => $siteId,
+            );
+        $this->database->update($query, $data);
+    }
+    
+    public function updateAlexaGR($alexaGR, $siteId){
+        $query = 'UPDATE Sites SET alexa_gr = :alexaGR WHERE siteId = :siteId';
+        $data = array(
+                    ':alexaGR' => $alexaGR,
+                    ':siteId' => $siteId,
+            );
+        $this->database->update($query, $data);
+    }
 	
 	/**
 	 * Delete a site

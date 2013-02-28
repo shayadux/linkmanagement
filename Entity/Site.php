@@ -15,6 +15,8 @@ class Site{
 	public $notes;
 	public $dateAdded;
 	public $price;
+    public $googlePR;
+    public $alexaGR;
     public $budgetId;
 	public $webmasterId;
     public $active;
@@ -107,6 +109,22 @@ class Site{
     
     public function setPrice($price){
         $this->price = $price;
+    }
+    
+    public function getGooglePR(){
+        return $this->googlePR;
+    }
+    
+    public function setGooglePR($googlePR){
+        $this->googlePR = $googlePR;
+    }
+    
+    public function getAlexaGR(){
+        return $this->alexaGR;
+    }
+    
+    public function setAlexaGR($alexaGR){
+        $this->alexaGR = $alexaGR;
     }
     
     public function getBudgetId(){  

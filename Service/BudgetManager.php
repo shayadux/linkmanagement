@@ -124,7 +124,21 @@ class BudgetManager{
         $data = array(':budgetId' => $budgetId);
         
         try{
-            $this->database->update($query, $data);
+            $result = $this->database->retrieve($query, $data);
+            return $result[0];
+        }
+        catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    
+    public function remainingAllBudgets(){
+        
+        $query = 'SELECT name, remaining FROM Budgets';
+        
+        try{
+            $result = $this->database->retrieve($query);
+            return $result;
         }
         catch(Exception $e){
             throw new Exception($e->getMessage());

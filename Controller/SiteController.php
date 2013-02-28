@@ -105,15 +105,15 @@ class SiteController extends Controller{
 		}
 		else{
 			
-			// Instantiate the SEOstats service
-			$seostats = $this->get('seostats');
-			
-			foreach($allSites as $key => $value){
-				
-				$url = $allSites[$key]['url'];
-				$allSites[$key]['pagerank'] = $seostats->Google()->getPageRank($url);
-				$allSites[$key]['globalrank'] = $seostats->Alexa()->getGlobalRank($url);
-			}
+//			// Instantiate the SEOstats service
+//			$seostats = $this->get('seostats');
+//			
+//			foreach($allSites as $key => $value){
+//				
+//				$url = $allSites[$key]['url'];
+//				$allSites[$key]['pagerank'] = $seostats->Google()->getPageRank($url);
+//				$allSites[$key]['globalrank'] = $seostats->Alexa()->getGlobalRank($url);
+//			}
 						
 			$form = $this->createFormBuilder()->getForm();
 		}

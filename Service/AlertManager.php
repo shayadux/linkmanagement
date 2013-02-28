@@ -24,6 +24,8 @@ class AlertManager{
     public $nofollowStatusArray = array();
     public $visibleStatusArray = array();
     
+    public $budgetStatusArray = array();
+    
     
     public function __construct(BacklinkManager $backlinkManager, SiteManager $siteManager, BacklinkChecker $backlinkChecker, BudgetManager $budgetManager){
         
@@ -35,6 +37,8 @@ class AlertManager{
         $this->urlStatus();
         $this->anchorStatus();
         $this->nofollowStatus();
+        
+        $this->budgetStatus();
         
         $this->notify();
     }
@@ -93,7 +97,7 @@ class AlertManager{
             // If any backlink has a nofollow_status = 1...
             if($nofollowStatusInfo['nofollow_status'] == 1){
                 
-                // ...then store it in the nofolllowStatusArray
+                // ...then store it in the nofollowStatusArray
                 array_push($this->nofollowStatusArray, $nofollowStatusInfo);
             }
         }  
@@ -101,13 +105,24 @@ class AlertManager{
     
     public function visibleStatus(){}
     
-    public function budgetStatus(){}
+    public function budgetStatus(){ 
+       $remainingAllBudgets = $this->budgetManager->remainingAllBudgets();
+       
+       foreach($remainingAllBudgets as $budgetRemaining){   
+           $budgetStatusText = $budgetRemaining['name'] . ' has ' . $budgetRemaining['remaining'] . ' remaining.';
+           array_push($this->budgetStatusArray, $budgetStatusText);
+       }
+    }
     
     public function notify(){
         
         $totalCount = count($this->urlStatusArray) + count($this->anchorStatusArray) + count($this->nofollowStatusArray);
         
-        echo 'you have ' . $totalCount . ' backlinks that need to be checked.';
+        echo 'you have ' . $totalCount . ' backlinks that need to be checked. <br>';
+        
+        foreach($this->budgetStatusArray as $budgetStatus){
+            echo $budgetStatus . '<br>';
+        }
         
     }
     
