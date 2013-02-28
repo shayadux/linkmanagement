@@ -40,7 +40,22 @@ class BacklinkController extends Controller{
 		
 		$backlinkManager = $this->get('lmt_backlink_manager');
 		$backlinks = $backlinkManager->getAllBacklinks();
+        
+        foreach($backlinks as $key => $blink){
+            
+            $siteUrl = $backlinkManager->getBacklinkSite($blink['siteId']);
+            
+            $backlinks[$key]['siteUrl'] = $siteUrl;
+
+        
+//            echo '<pre>';
+//            var_dump($backlinks);
+//            echo '</pre>';
+            
+        }
 		
+
+        
 		return $this->render('ShaythamcLinkManagementBundle:Backlink:all.html.twig', array(
 			'backlinks' => $backlinks,
 		));

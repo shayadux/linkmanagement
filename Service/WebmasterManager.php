@@ -73,7 +73,7 @@ class WebmasterManager{
 				
 		$webmaster = $this->getWebmaster($webmasterId);
 					
-		$query = 'SELECT Links.title, Links.url FROM Webmasters INNER JOIN Links ON Webmasters.webmasterId = Links.webmasterId WHERE Webmasters.webmasterId = :webmasterId';
+		$query = 'SELECT Sites.title, Sites.url FROM Webmasters INNER JOIN Sites ON Webmasters.webmasterId = Sites.webmasterId WHERE Webmasters.webmasterId = :webmasterId';
 		$data = array(
 			':webmasterId' => $webmasterId,
 		);

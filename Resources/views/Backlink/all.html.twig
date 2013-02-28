@@ -1,16 +1,62 @@
+  <style>
+tr, td{
+    
+        font-size: 14px;
+        border: thin dotted black;
+    
+    }
+  </style>
+
 {% javascripts %}
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        
+        $("p").click(function () {
+            $(this).slideUp();
+        });
+
+    </script>
 {% endjavascripts %}
 
-<table>
-
-	{% for backlinkProfile in backlinks %}
-    <div class="url">{{ backlinkProfile.url }} <br></div> 
+    <table>
     
-	<tr>
-		{% for key,profileAttribute in backlinkProfile %}
-			<td>{{ profileAttribute }}</td>
-		{% endfor %}
-    </tr>
-	{% endfor %}
-</table>
+        <tr>
+            <th>Display Text</th>
+            <th>URL</th>
+            <th>URL Status</th>
+            <th>Anchor Text</th>
+            <th>Anchor Status</th>
+            <th>Alive</th>
+            <th>Visible</th>
+            <th>Nofollow</th>
+            <th>Expiration</th>
+            <th>Last Checked</th>
+            <th>Site ID</th>
+        
+        </tr>
+        
+        {% for backlinkProfile in backlinks %}
+            
+        <tr>
+        
+            <td>{{ backlinkProfile.display_text }}</td>
+            <td>{{ backlinkProfile.url }}</td>
+            <td>{{ backlinkProfile.url_status }}</td>
+            <td>{{ backlinkProfile.anchor_text }}</td>
+            <td>{{ backlinkProfile.anchor_status }}</td>
+            <td>{{ backlinkProfile.alive }}</td>
+            <td>{{ backlinkProfile.visible }}</td>
+            <td>{{ backlinkProfile.nofollow_status }}</td>
+            <td>{{ backlinkProfile.expiration }}</td>
+            <td>{{ backlinkProfile.last_checked }}</td>
+            <td>{{ backlinkProfile.siteUrl }}</td>
+        
+        
+        
+        </tr>
+            
+        
+        {% endfor %}
+    
+    
+    </table>

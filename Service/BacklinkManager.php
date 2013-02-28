@@ -212,6 +212,18 @@ class BacklinkManager{
         return $this->database->retrieve($query, $data);
     }
     
+    public function getBacklinkSite($siteId){
+        $query = 'SELECT Sites.url FROM Sites INNER JOIN Backlinks ON Sites.siteId = Backlinks.siteId WHERE Sites.siteId = :siteId';
+   		//$query = 'SELECT Sites.title, Sites.url FROM Webmasters INNER JOIN Sites ON Webmasters.webmasterId = Sites.webmasterId WHERE Webmasters.webmasterId = :webmasterId';
+        $data = array(
+                    ':siteId' => $siteId,
+            );
+        
+        $result = $this->database->retrieve($query, $data);
+        return $result[0]['url'];
+
+    }
+    
 
 	
 }
