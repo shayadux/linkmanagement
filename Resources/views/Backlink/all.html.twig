@@ -1,9 +1,10 @@
   <style>
-tr, td{
+    tr, td{
     
         font-size: 14px;
         border: thin dotted black;
-    
+        padding: 6px;
+        
     }
   </style>
 
@@ -11,16 +12,43 @@ tr, td{
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
         
-        $("p").click(function () {
-            $(this).slideUp();
+        $(function(){
+            
+            // slide up a table cell on click
+            $("td").click(function(){
+                $(this).slideUp();
+            });
+            
+            // see if the seearch button is clicked
+            $("#searchbtn").click(function(){
+                
+                // if it is...
+                if($("#searchQuery").val() === 'iPhone Porn'){
+                    
+                    
+            
+            
+            
+            
+            
+                    alert($("#searchQuery").val());
+                }
+    
+            });
+    
         });
 
     </script>
 {% endjavascripts %}
-
-    <table>
     
+    <form>
+        <input type="text" id="searchQuery">
+        <input type="submit" id="searchbtn">
+    </form>
+    
+    <table>
         <tr>
+            <th>Affiliate</th>
             <th>Display Text</th>
             <th>URL</th>
             <th>URL Status</th>
@@ -31,17 +59,14 @@ tr, td{
             <th>Nofollow</th>
             <th>Expiration</th>
             <th>Last Checked</th>
-            <th>Site ID</th>
-        
         </tr>
         
-        {% for backlinkProfile in backlinks %}
-            
+        {% for backlinkProfile in backlinks %}   
         <tr>
-        
+            <td><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
             <td>{{ backlinkProfile.display_text }}</td>
             <td>{{ backlinkProfile.url }}</td>
-            <td>{{ backlinkProfile.url_status }}</td>
+            <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
             <td>{{ backlinkProfile.anchor_text }}</td>
             <td>{{ backlinkProfile.anchor_status }}</td>
             <td>{{ backlinkProfile.alive }}</td>
@@ -49,14 +74,6 @@ tr, td{
             <td>{{ backlinkProfile.nofollow_status }}</td>
             <td>{{ backlinkProfile.expiration }}</td>
             <td>{{ backlinkProfile.last_checked }}</td>
-            <td>{{ backlinkProfile.siteUrl }}</td>
-        
-        
-        
         </tr>
-            
-        
         {% endfor %}
-    
-    
     </table>
