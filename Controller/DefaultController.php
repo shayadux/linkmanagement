@@ -12,10 +12,10 @@ class DefaultController extends Controller
     public function indexAction()
     {
         
-    
-        $backlinkChecker = $this->get('lmt_backlink_checker');
-        $backlinkChecker->areAlive();
-        
+//    
+//        $backlinkChecker = $this->get('lmt_backlink_checker');
+//        $backlinkChecker->areAlive();
+//        
         $alertManager = $this->get('lmt_alert_manager');
         $alertManager->urlStatus();
         

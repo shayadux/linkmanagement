@@ -39,6 +39,8 @@ class BacklinkChecker{
             // Get the site associated with the current backlink
             $siteUrl = $this->siteManager->getSiteUrl($backlink['siteId']);
             
+            echo $siteUrl['url'] . PHP_EOL;
+            
             // Request the contents of the affiliate web page
             $client = new Client($siteUrl['url']);
             $httpRequest = $client->get();
@@ -59,11 +61,15 @@ class BacklinkChecker{
                 // Check to see if the URL matches our backlinkURL
                 if($this->checkUrl($backlink['backlinkId'], $checkArray[0])){
                     
+                    echo $checkArray[0] . PHP_EOL;
+                    
                     // If true, then update the url_status to 1 
                     $this->backlinkManager->updateUrlStatus($backlink['backlinkId'], 1);
                     
                     // Check if the backlink has the right anchor text
                     if($this->checkDisplayText($backlink['backlinkId'], $checkArray[1])){
+                        
+                        echo $checkArray[1] . PHP_EOL;
                         
                         // If true, then update the anchor_status to 1
                         $this->backlinkManager->updateAnchorStatus($backlink['backlinkId'], 1);
@@ -88,7 +94,7 @@ class BacklinkChecker{
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 0);
                     }
                     else{ 
-                    // Otherwise, there isn't a "nofollow" and we're good
+                    // Otherwise, there is a "nofollow"...
                         
                         // ...and we update the nofollow_status to 1
                         $this->backlinkManager->updateNofollowStatus($backlink['backlinkId'], 1);
@@ -137,9 +143,11 @@ class BacklinkChecker{
      */
     public function checkDisplayText($backlinkId, $anchorText){
         
+        // Get the specified display text from the Backlinks table
         $backlinkDisplayText = $this->backlinkManager->getBacklinkDisplayText($backlinkId);
-                
-        if(strcasecmp($backlinkDisplayText, $anchorText) == 0){            //$this->backlinkManager->updateAnchorStatus($backlinkId, 1);
+        
+        // Do a string comparison to see if they match
+        if(strcasecmp($backlinkDisplayText, $anchorText) == 0){
             return true;
         }
         
@@ -152,6 +160,7 @@ class BacklinkChecker{
      * @param type $anchorText
      */
     public function storeAnchorText($backlinkId, $anchorText){
+        // Store the anchor text in the Backlinks table
         $this->backlinkManager->updateAnchorText($backlinkId, $anchorText);
     }
     
@@ -185,11 +194,5 @@ class BacklinkChecker{
         }
         
         return true;
-    }
-
-    public function isVisible(){
-        
-    }
-
-    
+    }   
 }
