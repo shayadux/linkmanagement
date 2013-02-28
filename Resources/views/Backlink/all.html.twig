@@ -1,10 +1,16 @@
+{% javascripts %}
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+{% endjavascripts %}
+
 <table>
 
 	{% for backlinkProfile in backlinks %}
+    <div class="url">{{ backlinkProfile.url }} <br></div> 
+    
 	<tr>
 		{% for key,profileAttribute in backlinkProfile %}
 			<td>{{ profileAttribute }}</td>
 		{% endfor %}
-	</tr>
+    </tr>
 	{% endfor %}
 </table>

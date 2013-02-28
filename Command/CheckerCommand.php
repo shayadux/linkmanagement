@@ -21,8 +21,10 @@ class CheckerCommand extends ContainerAwareCommand{
         $backlinkChecker->check();
         
         $siteChecker = $this->getContainer()->get('lmt_site_checker');
-        $siteChecker->checkGooglePR();
-        $siteChecker->checkAlexaGR();
+        
+        // DISABLED because Google's getting suspicious
+        //$siteChecker->checkGooglePR();
+        //$siteChecker->checkAlexaGR();
     }
     
 }
