@@ -55,33 +55,36 @@
         </form>
 
         <table>
-            <tr>
-                <th>Affiliate</th>
-                <th>Display Text</th>
-                <th>URL</th>
-                <th>URL Status</th>
-                <th>Anchor Text</th>
-                <th>Anchor Status</th>
-                <th>Alive</th>
-                <th>Visible</th>
-                <th>Nofollow</th>
-                <th>Expiration</th>
-                <th>Last Checked</th>
-            </tr>
-
-        {% for backlinkProfile in backlinks %}
-            <tr class="{{ backlinkProfile.backlinkId }}">
-                <td class="siteUrl"><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
-                <td class="displayTest">{{ backlinkProfile.display_text }}</td>
-                <td class="url">{{ backlinkProfile.url }}</td>
-                <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
-                <td class="anchorText">{{ backlinkProfile.anchor_text }}</td>
-                <td class="anchorStatus">{{ backlinkProfile.anchor_status }}</td>
-                <td class="alive">{{ backlinkProfile.alive }}</td>
-                <td class="visible">{{ backlinkProfile.visible }}</td>
-                <td class="nofollowStatus">{{ backlinkProfile.nofollow_status }}</td>
-                <td class="expiration">{{ backlinkProfile.expiration }}</td>
-                <td class="lastChecked">{{ backlinkProfile.last_checked }}</td>
-            </tr>
-        {% endfor %}
-        </table>
+            <thead>
+                <tr>
+                    <th>Affiliate</th>
+                    <th>Display Text</th>
+                    <th>URL</th>
+                    <th>URL Status</th>
+                    <th>Anchor Text</th>
+                    <th>Anchor Status</th>
+                    <th>Alive</th>
+                    <th>Visible</th>
+                    <th>Nofollow</th>
+                    <th>Expiration</th>
+                    <th>Last Checked</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for backlinkProfile in backlinks %}
+                    <tr class="{{ backlinkProfile.backlinkId }}">
+                        <td class="siteUrl"><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
+                        <td class="displayTest">{{ backlinkProfile.display_text }}</td>
+                        <td class="url">{{ backlinkProfile.url }}</td>
+                        <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
+                        <td class="anchorText">{{ backlinkProfile.anchor_text }}</td>
+                        <td class="anchorStatus">{{ backlinkProfile.anchor_status }}</td>
+                        <td class="alive">{{ backlinkProfile.alive }}</td>
+                        <td class="visible">{{ backlinkProfile.visible }}</td>
+                        <td class="nofollowStatus">{{ backlinkProfile.nofollow_status }}</td>
+                        <td class="expiration">{{ backlinkProfile.expiration }}</td>
+                        <td class="lastChecked">{{ backlinkProfile.last_checked }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>

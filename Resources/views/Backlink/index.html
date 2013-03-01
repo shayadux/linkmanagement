@@ -1,0 +1,186 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <style>
+            tr, td{
+                font-size: 14px;
+                border: thin dotted black;
+                padding: 6px;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <input type="text" id="searchQuery">
+            <input type="submit" id="searchButton" value="submit">
+        </form>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Affiliate</th>
+                    <th>Display Text</th>
+                    <th>URL</th>
+                    <th>URL Status</th>
+                    <th>Anchor Text</th>
+                    <th>Anchor Status</th>
+                    <th>Alive</th>
+                    <th>Visible</th>
+                    <th>Nofollow</th>
+                    <th>Expiration</th>
+                    <th>Last Checked</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="12">
+                    <td class="siteUrl"><a href="http://www.pussyu.com">Visit Site</a></td>
+                    <td class="displayTest">iPhone Porn</td>
+                    <td class="url">http://mobile.bangyoulater.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">iPhone Porn</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 00:00:00</td>
+                </tr>
+                <tr id="13">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Free Porn</td>
+                    <td class="url">http://www.bangyoulater.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Free Porn</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="14">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Abella Anderson Porn Movies</td>
+                    <td class="url">http://www.bangbrosnetwork.com/models/abella-anderson_50473.htm</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Abella Anderson Porn Movies</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="15">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Free Live Sex</td>
+                    <td class="url">http://pinkcams.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Free Live Sex</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="16">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Cam Sex</td>
+                    <td class="url">http://naked.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Cam Sex</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="17">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Random Test</td>
+                    <td class="url">http://naked.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Cam Sex</td>
+                    <td class="anchorStatus">0</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="18">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Random Test</td>
+                    <td class="url">http://sloppyblowjob.com</td>
+                    <td class="urlStatus">0</td>
+                    <td class="anchorText"></td>
+                    <td class="anchorStatus">0</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+                <tr id="19">
+                    <td class="siteUrl"><a href="http://www.wtfpeople.com">Visit Site</a></td>
+                    <td class="displayTest">Porn Search</td>
+                    <td class="url">http://www.badjojo.com</td>
+                    <td class="urlStatus">1</td>
+                    <td class="anchorText">Porn Search</td>
+                    <td class="anchorStatus">1</td>
+                    <td class="alive"></td>
+                    <td class="visible"></td>
+                    <td class="nofollowStatus">0</td>
+                    <td class="expiration">2014-01-01</td>
+                    <td class="lastChecked">2013-02-27 13:45:46</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="holder"> </div>
+
+        <script>
+
+            $(function() {
+
+                // see if the seearch button is clicked
+                $("#searchButton").click(function(e) {
+                    var $searchQuery = $("#searchQuery").val();
+                    var $trArray = $("tr");
+                    $trArray.each(function(index) {
+
+                        var $tdArray = $(this).children();
+                        $tdArray.each(function(index) {
+
+                            if (!$(this).is(":contains('" + $searchQuery + "')")) {
+
+
+
+                                $(this).parent().attr("id").css("display", "none");
+
+                            }
+
+                        });
+
+
+                    });
+
+                    e.preventDefault();
+
+
+                });
+            });
+
+        </script>
+    </body>
+</html>
