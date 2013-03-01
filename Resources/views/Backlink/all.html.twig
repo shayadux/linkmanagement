@@ -1,79 +1,87 @@
-  <style>
-    tr, td{
-    
-        font-size: 14px;
-        border: thin dotted black;
-        padding: 6px;
-        
-    }
-  </style>
+<style>
+        tr, td{
+
+            font-size: 14px;
+            border: thin dotted black;
+            padding: 6px;
+
+        }
+    </style>
 
 {% javascripts %}
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
-        
-        $(function(){
-            
-            // slide up a table cell on click
-            $("td").click(function(){
-                $(this).slideUp();
-            });
-            
+
+        $(function() {
+
+
+
             // see if the seearch button is clicked
-            $("#searchbtn").click(function(){
-                
+            $("#searchbtn").click(function() {
+
                 // if it is...
-                if($("#searchQuery").val() === 'iPhone Porn'){
-                    
-                    
-            
-            
-            
-            
-            
-                    alert($("#searchQuery").val());
+                if ($("#searchQuery").val() === 'iPhone Porn') {
+
+
+                    var $urlStatusArray = $('.urlStatus');
+
+                    $urlStatusArray.each(function(index) {
+
+                        if ($(this).text() === 0) {
+
+                            $(this).html('heyyy');
+
+                        }
+
+                        alert($(this).text());
+
+                    });
+
+                    //alert($urlStatusArray.length);
+
+
                 }
-    
+
             });
-    
+
         });
 
-    </script>
+        </script>
 {% endjavascripts %}
-    
-    <form>
-        <input type="text" id="searchQuery">
-        <input type="submit" id="searchbtn">
-    </form>
-    
-    <table>
-        <tr>
-            <th>Affiliate</th>
-            <th>Display Text</th>
-            <th>URL</th>
-            <th>URL Status</th>
-            <th>Anchor Text</th>
-            <th>Anchor Status</th>
-            <th>Alive</th>
-            <th>Visible</th>
-            <th>Nofollow</th>
-            <th>Expiration</th>
-            <th>Last Checked</th>
-        </tr>
-        
-        {% for backlinkProfile in backlinks %}   
-        <tr>
-            <td><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
-            <td>{{ backlinkProfile.display_text }}</td>
-            <td>{{ backlinkProfile.url }}</td>
-            <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
-            <td>{{ backlinkProfile.anchor_text }}</td>
-            <td>{{ backlinkProfile.anchor_status }}</td>
-            <td>{{ backlinkProfile.alive }}</td>
-            <td>{{ backlinkProfile.visible }}</td>
-            <td>{{ backlinkProfile.nofollow_status }}</td>
-            <td>{{ backlinkProfile.expiration }}</td>
-            <td>{{ backlinkProfile.last_checked }}</td>
-        </tr>
+
+        <form>
+            <input type="text" id="searchQuery">
+            <input type="submit" id="searchbtn" value="submit">
+        </form>
+
+        <table>
+            <tr>
+                <th>Affiliate</th>
+                <th>Display Text</th>
+                <th>URL</th>
+                <th>URL Status</th>
+                <th>Anchor Text</th>
+                <th>Anchor Status</th>
+                <th>Alive</th>
+                <th>Visible</th>
+                <th>Nofollow</th>
+                <th>Expiration</th>
+                <th>Last Checked</th>
+            </tr>
+
+        {% for backlinkProfile in backlinks %}
+            <tr class="{{ backlinkProfile.backlinkId }}">
+                <td class="siteUrl"><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
+                <td class="displayTest">{{ backlinkProfile.display_text }}</td>
+                <td class="url">{{ backlinkProfile.url }}</td>
+                <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
+                <td class="anchorText">{{ backlinkProfile.anchor_text }}</td>
+                <td class="anchorStatus">{{ backlinkProfile.anchor_status }}</td>
+                <td class="alive">{{ backlinkProfile.alive }}</td>
+                <td class="visible">{{ backlinkProfile.visible }}</td>
+                <td class="nofollowStatus">{{ backlinkProfile.nofollow_status }}</td>
+                <td class="expiration">{{ backlinkProfile.expiration }}</td>
+                <td class="lastChecked">{{ backlinkProfile.last_checked }}</td>
+            </tr>
         {% endfor %}
-    </table>
+        </table>
