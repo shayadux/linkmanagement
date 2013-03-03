@@ -1,27 +1,23 @@
 <!doctype html>
 <html>
-    <head>
-        <style>
-            tr, td{
-                font-size: 14px;
-                border: thin dotted black;
-                padding: 6px;
-            }
+<head>
+    <style>
+        tr, td{
+            font-size: 14px;
+            border: thin dotted black;
+            padding: 6px;
+        }
 
-            th{
-                padding: 5px;
-                border: thin solid blue;
-            }
+        th{
+            padding: 5px;
+            border: thin solid blue;
+        }
 
-            .hidden{
-
-                display: none;
-            }
-        </style>
-    </head>
-
-
-
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
 <body>
     <form id="search">
         <input type="text" id="searchQuery">
@@ -68,22 +64,34 @@
     <script>
 
         $(function() {
+
+            // when the search form is submitted...
             $("#search").submit(function(e){
 
+                // save the search query
                 var searchQuery = $("#searchQuery").val();
 
-                $(".hidden").each(function(index){
+                // find any table rows that are hidden from a previous search
+                $("tr.hidden").each(function(index){
+                    // ...and show them again
                     $(this).removeClass("hidden");
                 });
 
+                // find all the table rows inside the table body
                 var $trArray = $("tbody > tr");
+
+                // Go through every table row
                 $trArray.each(function(index){
 
-                   if($(this).children().is(":contains('" + searchQuery + "')")){
-                       console.log($(this).attr("id"));
-                       $(this).addClass("hidden");
-                   }
+                    // if any of the table cells inside this table row contain the search query
+                    if($(this).children().is(":contains('" + searchQuery + "')")){
+                        console.log($(this).attr("id"));
+
+                        // hide the table row
+                        $(this).addClass("hidden");
+                    }
                 });
+
                 e.preventDefault();
             });
         });
