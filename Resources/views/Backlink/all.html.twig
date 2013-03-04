@@ -16,11 +16,19 @@
         .hidden{
             display: none;
         }
+
+        .attention{
+            color:red;
+            background-color: yellowgreen;
+            border: thin dotted yellow;
+        }
     </style>
 </head>
 <body>
     <form id="search">
-        <input type="text" id="searchQuery">
+        <input type="text" class="query">
+        <button type="button" class="addQuery">add</button>
+        <button type="button" id="clearQueries" class="attention">clear all</button>
         <input type="submit" id="searchButton" value="submit">
     </form>
 
@@ -43,7 +51,7 @@
         <tbody class="data">
             {% for backlinkProfile in backlinks %}
             <tr id="{{ backlinkProfile.backlinkId }}">
-                <td class="siteUrl"><a href="{{ backlinkProfile.siteUrl }}">Visit Site</a></td>
+                <td class="siteUrl"><a href="{{ backlinkProfile.siteUrl }}">{{ backlinkProfile.siteName }}</a></td>
                 <td class="displayTest">{{ backlinkProfile.display_text }}</td>
                 <td class="url">{{ backlinkProfile.url }}</td>
                 <td class="urlStatus">{{ backlinkProfile.url_status }}</td>
@@ -65,31 +73,62 @@
 
         $(function() {
 
+            // When user clicks the add button inside the search form
+            $(".addQuery").click(function(e){
+
+                // add a new search field
+                $(".addQuery").before("<input type='text' class='query'>");
+
+                e.preventDefault();
+            });
+
+            // When user clicks clear all inside the search form
+            $("#clearQueries").click(function(e){
+
+                // Go through all hidden elements inside the results table
+                $("tr.hidden").each(function(index){
+
+                    // ...and show them again
+                    $(this).removeClass("hidden");
+                });
+            });
+
+
             // when the search form is submitted...
             $("#search").submit(function(e){
 
-                // save the search query
-                var searchQuery = $("#searchQuery").val();
-
                 // find any table rows that are hidden from a previous search
                 $("tr.hidden").each(function(index){
+
                     // ...and show them again
                     $(this).removeClass("hidden");
                 });
 
-                // find all the table rows inside the table body
+                // Save all search queries in a variable
+                var $queryArray = $(".query");
+
+                // Save all table rows as an array
                 var $trArray = $("tbody > tr");
 
                 // Go through every table row
-                $trArray.each(function(index){
+                $trArray.each(function(index, tr){
 
-                    // if any of the table cells inside this table row contain the search query
-                    if($(this).children().is(":contains('" + searchQuery + "')")){
-                        console.log($(this).attr("id"));
+                    // Go through every query
+                    $.each($queryArray, function(key, query){
+                        console.log($(tr).val());
+                        console.log($(query).val());
+                        console.log($(tr).children().is(":contains('" + $(query).val() + "')"));
 
-                        // hide the table row
-                        $(this).addClass("hidden");
-                    }
+                        // See if the queries match anything inside any of the table rows
+                        if($(tr).children().is(":contains('" + $(query).val() + "')")){
+                            console.log('does');
+                            console.log($(tr).attr("id"));
+
+                            // If so, hide the table row
+                            $(tr).addClass("hidden");
+                        }
+
+                    });
                 });
 
                 e.preventDefault();
