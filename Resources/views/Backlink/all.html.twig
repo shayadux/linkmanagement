@@ -20,7 +20,7 @@
         .attention{
             color:red;
             background-color: yellowgreen;
-            border: thin dotted yellow;
+            border: thin solid red;
         }
     </style>
 </head>
@@ -84,6 +84,10 @@
 
             // When user clicks clear all inside the search form
             $("#clearQueries").click(function(e){
+
+                $(".query").each(function(index){
+                    $(this).val('');
+                })
 
                 // Go through all hidden elements inside the results table
                 $("tr.hidden").each(function(index){
